@@ -7,10 +7,8 @@ Code for Lab 5. For installation instructions, please see the lab manual.
 ### ROS 2 Jazzy
 [Jazzy Installation](https://docs.ros.org/en/jazzy/Installation.html)
 
-### MoveIt2 Python Library
-[MoveIt2 Python](https://moveit.ai/moveit/ros/python/google/2023/02/15/MoveIt-Humble-Release.html)
+### PyMoveIt2: Python interface for MoveiIt 2
+[pymoveit2](https://github.com/AndrejOrsula/pymoveit2)
 
 ### ros2_control
 [ROS2 Control](https://control.ros.org/jazzy/index.html)
-
-
