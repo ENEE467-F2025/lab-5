@@ -1,0 +1,5 @@
+repositories:
+  common_ws:
+    type: https
+    url: https://github.com/ENEE467-F2025/common_ws.git
+    version: main  
