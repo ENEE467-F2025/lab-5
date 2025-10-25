@@ -3,7 +3,7 @@
 <package format="3">
   <name>robot_3r_moveit_scripts</name>
   <version>0.0.0</version>
-  <description>The robot_3r_moveit_scripts package..</description>
+  <description>The robot_3r_moveit_scripts package.</description>
   <maintainer email="me@clintonenwerem.com">Clinton Enwerem</maintainer>
   <license>BSD</license>
 
@@ -12,7 +12,6 @@
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
   <depend>geometry_msgs</depend>
-  <depend>realsense2_camera_msgs</depend>
   <depend>pymoveit2</depend>
   <depend>robot_3r_description</depend>
   <depend>robot_3r_moveit_config</depend>

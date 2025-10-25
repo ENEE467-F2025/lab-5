@@ -25,7 +25,6 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/CartesianPath.msg"
   "msg/SceneObstacles.msg"
   "msg/RigidBodyGeom.msg"
-  "srv/CheckCollision.srv"
   DEPENDENCIES std_msgs sensor_msgs geometry_msgs shape_msgs visualization_msgs
 )
 

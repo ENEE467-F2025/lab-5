@@ -21,6 +21,7 @@ common_ws_packages = [
 ]
 
 lab5_packages = [
+    # "lab_moveit_scripts",
     "robot_3r_bringup",
     "robot_3r_description",
     "robot_3r_moveit_config",

@@ -3,7 +3,7 @@
 <package format="3">
   <name>robot_3r_interfaces</name>
   <version>0.0.0</version>
-  <description>The robot_3r_interfaces package..</description>
+  <description>The robot_3r_interfaces package.</description>
   <maintainer email="me@clintonenwerem.com">Clinton Enwerem</maintainer>
   <license>BSD</license>
 
@@ -19,7 +19,6 @@
   <depend>shape_msgs</depend>
   <depend>visualization_msgs</depend>
   <depend>trajectory_msgs</depend>
-  <depend>realsense2_camera_msgs</depend>
   <depend>pymoveit2</depend>
   <depend>robot_3r_description</depend>
   <depend>robot_3r_moveit_config</depend>

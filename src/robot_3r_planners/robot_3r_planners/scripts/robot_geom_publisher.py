@@ -75,6 +75,10 @@ class URDFCollisionPublisher(Node):
             T_joint = sm.SE3(xyz_origin) * sm.SE3.RPY(rpy_origin, order="xyz", unit="rad")
             joint_map[child] = (parent, T_joint)
 
+        # dump joint map
+        # for child, (parent, T) in joint_map.items():
+            # self.get_logger().info(f"Joint map: {parent} -> {child}, T = {T}")
+
         for link in self.tree.findall("link"):
             link_name = link.attrib.get("name")
 

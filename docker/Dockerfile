@@ -1,5 +1,5 @@
 #########################################
-##  Base Image for Gazebo Simulation  ##
+##  Base Image for Motion Planning  ##
 #########################################
 
 FROM osrf/ros:jazzy-desktop
@@ -10,10 +10,9 @@ SHELL ["/bin/bash", "-c"]
 WORKDIR ${HOME}
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=America/New_York
 
 # Basic setup
-RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends --allow-unauthenticated \
     autoconf \
     automake \
     bash-completion \
@@ -27,8 +26,6 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
     iputils-ping \
     libxext-dev \
     libx11-dev \
-    libeigen3-dev \
-    libfcl-dev \
     make \
     mc \
     mesa-utils \
@@ -59,11 +56,11 @@ RUN code-server --install-extension ms-python.python
 COPY extensions/ms-iot.vscode-ros-0.9.6.vsix .
 RUN code-server --install-extension ms-iot.vscode-ros-0.9.6.vsix
 
-RUN pip install --no-cache-dir ipython roboticstoolbox-python==1.1.1 transforms3d python-fcl --break-system-packages
-ENV PATH="${PATH}:/home/robot/.local/bin"
+RUN pip install ipython roboticstoolbox-python==1.1.1 --break-system-packages && \
+    export PATH=/home/robot/.local/bin:$PATH
 
 # Set datetime and timezone correctly
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo "$TZ" > /etc/timezone
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo '$TZ' | tee -a /etc/timezone
 
 ENV DEBIAN_FRONTEND=dialog
 
@@ -75,7 +72,8 @@ RUN apt-get update && apt-get install -y \
     ros-jazzy-ros-gz-bridge \
     ros-jazzy-gz-ros2-control \
     ros-jazzy-foxglove-bridge \
-    ros-jazzy-joint-state-publisher-gui 
+    ros-jazzy-joint-state-publisher-gui \
+    ros-jazzy-moveit*
 
 RUN apt-get update \
     && apt-get install -y ros-jazzy-gz-*
@@ -108,7 +106,7 @@ ENV USER=robot \
     HOME=/home/robot \
     XDG_RUNTIME_DIR=/run/user/${userid} \
     LIBGL_ALWAYS_SOFTWARE=0 \
-    TZ=${TZ}
+    TZ=America/New_York
 
 RUN sudo mkdir -p -m 0700 /run/user/${userid} && \
     sudo chown robot:robot /run/user/${userid}
