@@ -1,11 +1,19 @@
-FROM ros:jazzy-desktop
+#########################################
+##  Base Image for Gazebo Simulation  ##
+#########################################
+
+FROM osrf/ros:jazzy-desktop
+ENV ROS_DISTRO=jazzy
 
 SHELL ["/bin/bash", "-c"]
 
-ENV DEBIAN_FRONTEND=noninteractive
+WORKDIR ${HOME}
 
-# System dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/New_York
+
+# Basic setup
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
     autoconf \
     automake \
     bash-completion \
@@ -19,7 +27,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     iputils-ping \
     libxext-dev \
     libx11-dev \
+    libeigen3-dev \
+    libfcl-dev \
     make \
+    mc \
     mesa-utils \
     nano \
     vim \
@@ -31,74 +42,97 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tzdata \
     xclip \
     x11proto-gl-dev \
-    wget \
-    gnupg \
-    python3-vcstool \
+    ros-jazzy-rmw-cyclonedds-cpp \
+    python3-pip \
+    screen \
+    figlet \
+    toilet \
     && rm -rf /var/lib/apt/lists/*
 
-# Gazebo Harmonic
-RUN wget -qO - https://packages.osrfoundation.org/gazebo.gpg | sudo apt-key add - && \
-    echo "deb [arch=amd64,arm64] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" \
-      > /etc/apt/sources.list.d/gazebo-stable.list && \
-    apt-get update && apt-get install -y --no-install-recommends \
-    gazebo-harmonic \
-    ros-jazzy-gazebo-ros-pkgs \
-    && rm -rf /var/lib/apt/lists/*
+ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
 # install VS Code server
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 
 # install python extension
 RUN code-server --install-extension ms-python.python
+COPY extensions/ms-iot.vscode-ros-0.9.6.vsix .
+RUN code-server --install-extension ms-iot.vscode-ros-0.9.6.vsix
 
-# Timezone setup
-ARG TZ=Etc/UTC
-RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo "${TZ}" > /etc/timezone
+RUN pip install --no-cache-dir ipython roboticstoolbox-python==1.1.1 transforms3d python-fcl --break-system-packages
+ENV PATH="${PATH}:/home/robot/.local/bin"
 
-# Create non-root user
+# Set datetime and timezone correctly
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo "$TZ" > /etc/timezone
+
+ENV DEBIAN_FRONTEND=dialog
+
+# install ros packages
+RUN apt-get update && apt-get install -y \
+    ros-jazzy-ros-gz \
+    ros-jazzy-ros2-control \
+    ros-jazzy-ros2-controllers \
+    ros-jazzy-ros-gz-bridge \
+    ros-jazzy-gz-ros2-control \
+    ros-jazzy-foxglove-bridge \
+    ros-jazzy-joint-state-publisher-gui 
+
+RUN apt-get update \
+    && apt-get install -y ros-jazzy-gz-*
+
+# Add OSRF Gazebo repository and key, then install Gazebo development library
+# needed for gz completions
+RUN apt-get update && apt-get install -y --no-install-recommends gnupg lsb-release ca-certificates curl && \
+    curl -fsSL https://packages.osrfoundation.org/gazebo.gpg -o /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" > /etc/apt/sources.list.d/gazebo-stable.list && \
+    apt-get update && apt-get install -y libgz-tools2-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+# defaults
 ARG userid=1002
 ARG groupid=1002
-RUN groupadd -g ${groupid} -o robot && \
-    useradd -ms /bin/bash --uid ${userid} -g ${groupid} robot && \
-    echo "robot ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# setup user env
+RUN groupadd -g ${groupid} -o robot
+RUN useradd -ms /bin/bash --uid ${userid} -g ${groupid} --groups sudo,video robot && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER robot
 WORKDIR /home/robot
 
-# ROS 2 colcon workspace setup (common_ws)
-COPY --chown=robot:robot lab-5.repos /tmp/lab-5.repos
-RUN mkdir -p /home/robot/common_ws/src
-WORKDIR /home/robot/common_ws
-RUN vcs import --input /tmp/lab-5.repos .
+# ROS_LOCALHOST_ONLY is deprecated
+# LIBGL_ALWAYS_SOFTWARE=1 causes performance issues with Gazebo rendering
+ENV USER=robot \
+    LANG=en_US.UTF-8 \
+    ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST \
+    HOME=/home/robot \
+    XDG_RUNTIME_DIR=/run/user/${userid} \
+    LIBGL_ALWAYS_SOFTWARE=0 \
+    TZ=${TZ}
 
-# ROS 2 colcon workspace setup (lab-5)
-RUN mkdir -p /home/robot/lab-5/src
-WORKDIR /home/robot/lab-5
+RUN sudo mkdir -p -m 0700 /run/user/${userid} && \
+    sudo chown robot:robot /run/user/${userid}
 
-# Copy source tree into the image
-COPY --chown=robot:robot src /home/robot/lab-5/src
+# ros workspace
+RUN source /opt/ros/jazzy/setup.bash \
+    && mkdir -p ~/ros2_ws/src
 
-# Initialize rosdep
-RUN sudo rosdep init && rosdep update
+RUN echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc && \
+    echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> ~/.bashrc && \
+    echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.bashrc && \
+    # segmentation fault workaround
+    echo "export QT_QPA_PLATFORM=xcb" >> ~/.bashrc && \
+    # autocompletion for Gazebo CLI
+    echo "source /usr/share/bash-completion/completions/gz" >> ~/.bashrc && \
+    # echo "export ROS_LOCALHOST_ONLY=1" >> ~/.bashrc && \
+    echo "export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST" >> ~/.bashrc && \
+    echo "export GZ_VERSION=harmonic" >> ~/.bashrc && \
+    echo "alias clc=clear" >> ~/.bashrc && \
+    # clear terminal when starting
+    echo "clear" >> ~/.bashrc && \
+    echo "toilet -f smblock --filter border:metal -w 24 ' ENEE 467     LAB 5'" >> ~/.bashrc
 
-# Install package dependencies
-RUN rosdep install --from-paths src --ignore-src -r -y
+# Setup tmux config
+ADD --chown=robot:robot https://raw.githubusercontent.com/MarylandRoboticsCenter/someConfigs/refs/heads/master/.tmux_K.conf /home/robot/.tmux.conf
 
-# Build the workspace
-RUN source /opt/ros/jazzy/setup.bash && colcon build --symlink-install
-
-RUN chmod +x /home/robot/lab-5/src/robot_3r_planners/scripts
-# Add to bashrc
-RUN echo "source /opt/ros/jazzy/setup.bash" >> /home/robot/.bashrc && \
-    echo "source /home/robot/lab-5/install/setup.bash" >> /home/robot/.bashrc && \
-    echo "cd ~/lab-5" >> /home/robot/.bashrc
-
-WORKDIR /home/robot/lab-5
-
-# tmux config
-ADD --chown=robot:robot \
-    https://raw.githubusercontent.com/MarylandRoboticsCenter/someConfigs/refs/heads/master/.tmux_K.conf \
-    /home/robot/.tmux.conf
-
-# Default entry
 ENTRYPOINT ["/bin/bash", "-i"]

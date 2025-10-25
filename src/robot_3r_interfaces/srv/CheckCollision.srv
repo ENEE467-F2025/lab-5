@@ -1,0 +1,7 @@
+# robot_3r_interfaces/srv/CheckCollision.srv
+
+# Request
+float64[] joint_positions  # current configuration
+---
+# Response
+bool in_collision           # True if in collision

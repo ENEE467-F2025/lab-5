@@ -13,7 +13,7 @@ import xml.etree.ElementTree as ET
 from shape_msgs.msg import SolidPrimitive
 from geometry_msgs.msg import Pose, PoseStamped
 import transforms3d as t3d
-from robot_3r_msgs.msg import RigidBodyGeom
+from robot_3r_interfaces.msg import RigidBodyGeom
 from rclpy.duration import Duration
 from pymoveit2.robots import robot_3r as robot
 from robot_3r_planners.utils.collision_utils import get_link_transform
@@ -74,10 +74,6 @@ class URDFCollisionPublisher(Node):
                 rpy_origin = [0, 0, 0]
             T_joint = sm.SE3(xyz_origin) * sm.SE3.RPY(rpy_origin, order="xyz", unit="rad")
             joint_map[child] = (parent, T_joint)
-
-        # dump joint map
-        # for child, (parent, T) in joint_map.items():
-            # self.get_logger().info(f"Joint map: {parent} -> {child}, T = {T}")
 
         for link in self.tree.findall("link"):
             link_name = link.attrib.get("name")

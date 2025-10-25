@@ -22,7 +22,6 @@ setup(
             "sampling_based_planner = robot_3r_planners.scripts.sampling_based_planner:main",
             "simple_obstacle_publisher = robot_3r_planners.scripts.simple_obstacle_publisher:main",
             "robot_geom_publisher = robot_3r_planners.scripts.robot_geom_publisher:main",
-            "informed_rrts_planner = robot_3r_planners.exercise.informed_rrts_planner:main",
         ],
     },
 )

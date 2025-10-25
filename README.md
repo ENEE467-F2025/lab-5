@@ -33,33 +33,39 @@ To build the Docker container, ensure that you have [Docker](https://www.docker.
 
 ## Starting the Container
 
-The lab computers contain a prebuild image so you will not have to build the image.
-* Clone this repo to get the lab-5 code if you haven't done so already
-    ```
-    cd ~/Labs
-    git clone https://github.com/ENEE467-F2025/lab-5.git
-    cd lab-5/docker
-    ```
-* Run the Docker container
-    ```
-    userid=$(id -u) groupid=$(id -g) docker compose -f lab-5-compose.yml run --rm lab-5-docker
-    ```
-* Once inside the container, you should be greeted with the following prompt indicating that the container is running
-    ```
-    (lab-5) robot@docker-desktop:~$
-    ```
-* Edit the lab-5 Python (ROS 2) code  within the `lab-5/src` and `lab-5/src/exercise` folders from a VS Code editor on the host machine. The repo directory `lab-5/src`  is mounted to the docker container located at `/home/robot/lab-5/src` so all changes will be reflected **inside** the container.
+The lab computers contain a prebuilt image so you typically won't have to build the image.
 
-* Test your setup by running a simple ROS2 node:
+- Recommended (one command): run the helper script from the repo root on the host
+    ```bash
+    ./lab5.run.sh
     ```
-    cd ~/lab-5/
-    source install/local_setup.bash
-    ros2 run lab_moveit_scripts test_docker.py
+    This will:
+    - Launch the container via Docker Compose in the background
+    - Open VS Code attached to the running container at `/home/robot/ros2_ws`
+
+- Manual (alternative):
+    ```bash
+    cd ~/Labs/lab-5/docker
+    userid=$(id -u) groupid=$(id -g) docker compose -f lab-5-compose.yml up -d
     ```
+
+Once inside the container (e.g., using `docker exec -it lab-5-container bash -i`), your prompt should look like
+```
+robot@<host>:~$
+```
+
+Edit the lab-5 Python (ROS 2) code within the `lab-5/src` and `lab-5/src/exercise` folders from a VS Code editor on the host machine. The repo directory `lab-5/src` is mounted to the docker container at `/home/robot/ros2_ws/src`, so changes are reflected inside the container.
+
+To build the workspace inside the container:
+```bash
+cd ~/ros2_ws
+colcon build --symlink-install
+source install/setup.bash
+```
 
 ## Attaching A Docker Container to VSCode
 ```bash
-code --folder-uri vscode-remote://attached-container+$(printf "$(docker ps -q --filter ancestor=lab-5-image)" | od -A n -t x1 | sed 's/ *//g' | tr -d '\n')/home/robot/lab5_ws
+code --folder-uri vscode-remote://attached-container+$(printf "$(docker ps -q --filter name=lab-5-container)" | od -A n -t x1 | sed 's/ *//g' | tr -d '\n')/home/robot/ros2_ws
 ```
 ## Lab Instructions
 

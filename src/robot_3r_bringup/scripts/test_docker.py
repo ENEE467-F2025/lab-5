@@ -21,12 +21,11 @@ common_ws_packages = [
 ]
 
 lab5_packages = [
-    "lab_moveit_scripts",
     "robot_3r_bringup",
     "robot_3r_description",
     "robot_3r_moveit_config",
     "robot_3r_planners",
-    "robot_3r_msgs"
+    "robot_3r_interfaces"
 ]
 common_ws_pkg_share_dirs = [get_package_share_directory(common_pkg) for common_pkg in common_ws_packages]
 lab5_pkg_share_dirs = [get_package_share_directory(pkg) for pkg in lab5_packages]

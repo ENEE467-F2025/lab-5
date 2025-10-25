@@ -3,7 +3,7 @@
 <package format="3">
   <name>robot_3r_gz_sim</name>
   <version>0.0.0</version>
-  <description>The robot_3r_gz_sim package. Part of the lab_moveit metapackage.</description>
+  <description>The robot_3r_gz_sim package..</description>
   <maintainer email="me@clintonenwerem.com">Clinton Enwerem</maintainer>
   <license>BSD</license>
 

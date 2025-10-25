@@ -20,5 +20,5 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - ../src:/home/robot/lab-5/src
+      - ../src:/home/robot/ros2_ws/src
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
