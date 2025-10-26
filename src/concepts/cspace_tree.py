@@ -91,14 +91,27 @@ def main():
     # run planning
     path = None
     if args.generate_path:
-        path = planner.plan()
+        path = planner.plan()    
     else:
         # build the tree without finding complete path to goal
         planner.build_tree()
-    
-    # Print tree metadata
-    print_tree_metadata(planner.config_tree, path, generate_path=args.generate_path, show_costs=args.show_costs)
-    
+
+    # Filter path
+    filtered_path = None
+    if path is not None:
+        if path:
+            path_arr = np.asarray(path)
+            tol = 1e-3
+            decimals = max(0, int(np.ceil(-np.log10(tol))))
+            rounded = np.round(path_arr, decimals=decimals)
+            _, idx = np.unique(rounded, axis=0, return_index=True)
+            idx = np.sort(idx)
+            filtered_path = [path_arr[i].tolist() for i in idx]
+        else:
+            filtered_path = []
+    # Print tree metadata using the filtered path
+    print_tree_metadata(planner.config_tree, filtered_path, generate_path=args.generate_path, show_costs=args.show_costs)
+    path = filtered_path
     if path is None and args.generate_path:
         print("No path found.")
     elif path is not None:

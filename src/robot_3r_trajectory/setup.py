@@ -14,9 +14,9 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='Clinton Enwerem',
-    maintainer_email='enwerem@terpmail.umd.edu',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    maintainer_email='me@clintonenwerem.com',
+    description='Point-to-point and via-point trajectory generation for the 3R robot',
+    license='BSD-3-Clause',
     extras_require={
         'test': [
             'pytest',
@@ -24,8 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'polynomial_trajectory = robot_3r_trajectory.polynomial_trajectory:main',
-            # 'via_point_trajectory = robot_3r_trajectory.via_point_trajectory:main',
+            'via_point_trajectory = robot_3r_trajectory.via_point_trajectory:main',
         ],
     },
 )

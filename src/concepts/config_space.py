@@ -133,7 +133,7 @@ nargs='?',
             else:
                 wksp_rect_sp = os.path.join(os.path.dirname(os.path.abspath(__file__)), "wksp_rect")
             ensure_dir(os.path.dirname(wksp_rect_sp))
-            plt.savefig(wksp_rect_sp+'.png', bbox_inches='tight')
+            # plt.savefig(wksp_rect_sp+'.png', bbox_inches='tight')
 
     if obstacle_type == 'circle':
         plot_workspace(workspace_ee=workspace_ee, all_points=all_points, ax=ax)
@@ -144,10 +144,10 @@ nargs='?',
             else:
                 wksp_circle_sp = os.path.join(os.path.dirname(os.path.abspath(__file__)), "wksp_circle")
             ensure_dir(os.path.dirname(wksp_circle_sp))
-            plt.savefig(wksp_circle_sp+'.png', bbox_inches='tight')
+            # plt.savefig(wksp_circle_sp+'.png', bbox_inches='tight')
 
     # config space obstacle (rect)
-    plt.clf()
+    plt.close('all')
     if obstacle_type == 'rect':
         plot_cspace(grid=grid_rect, joint_limits=joint_limits)
         if save_fig:

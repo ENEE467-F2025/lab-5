@@ -6,18 +6,20 @@ from launch.actions import IncludeLaunchDescription
 from launch.substitutions import Command, PathJoinSubstitution, TextSubstitution, LaunchConfiguration, PythonExpression
 from launch_ros.substitutions import FindPackageShare
 import os
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, ExecuteProcess
 from launch.conditions import IfCondition, UnlessCondition
 from ament_index_python import get_package_share_directory
 
 def generate_launch_description():
     pkg_share = FindPackageShare("robot_3r_description").find("robot_3r_description")
+    gz_pkg_share = FindPackageShare('robot_3r_gz_sim').find('robot_3r_gz_sim')
     urdf_file = os.path.join(pkg_share, "urdf", "robot_3r.urdf.xacro")
     launch_rviz = LaunchConfiguration("launch_rviz")
     log_level = LaunchConfiguration("log_level")
     rviz_config = LaunchConfiguration("rviz_config")
     use_sim_time = LaunchConfiguration("use_sim_time")
     run_headless = LaunchConfiguration("run_headless")
+    exercise = LaunchConfiguration("exercise")
     config = os.path.join(
         pkg_share,
         "config",
@@ -44,6 +46,22 @@ def generate_launch_description():
             "run_headless",
             default_value="true",
             description="Whether to start the simulator in headless mode.",
+        ),
+        DeclareLaunchArgument(
+            "exercise",
+            default_value="false",
+            choices=["true", "false"],
+            description="Whether to load the exercise 2 RViz config. \n" \
+            "If false, no trajectory markers will be shown.",
+        ),
+        DeclareLaunchArgument(
+            "exercise_rviz_config",
+            default_value=os.path.join(
+                get_package_share_directory("robot_3r_description"),
+                "rviz",
+                "view_3r_tf_obs_ex.rviz",
+            ),
+            description="Path to exercise 2 RViz config.",
         ),
         DeclareLaunchArgument(
             "rviz_config",
@@ -103,6 +121,17 @@ def generate_launch_description():
             executable="spawner",
             arguments=["threedofbot_joint_trajectory_controller", "--param-file", config, "--controller-manager", "/controller_manager"],
         ),
+        # spawn obstacles into Gazebo when exercise is true
+        # ExecuteProcess(
+        #     cmd=[
+        #         'python3',
+        #         os.path.join(gz_pkg_share, 'scripts', 'spawn_obstacles.py'),
+        #         '--robot_pose', '-0.52', '0.01', '0.1',
+        #         '--robot_yaw', '-0.06',
+        #     ],
+        #     condition=IfCondition(exercise),
+        #     output='screen',
+        # ),
         # Spawn robot into Gazebo
         Node(
             package="ros_gz_sim",
@@ -117,10 +146,24 @@ def generate_launch_description():
             parameters=[{"use_sim_time": use_sim_time}],
         ),
 
-        # rviz2
+        # always launch RViz; pick config based on `exercise` flag
         Node(
             package="rviz2",
-            condition=IfCondition(launch_rviz),
+            condition=IfCondition(exercise),
+            executable="rviz2",
+            output="log",
+            arguments=[
+                "--display-config",
+                LaunchConfiguration("exercise_rviz_config"),
+                "--ros-args",
+                "--log-level",
+                log_level,
+            ],
+            parameters=[{"use_sim_time": use_sim_time}],
+        ),
+        Node(
+            package="rviz2",
+            condition=UnlessCondition(exercise),
             executable="rviz2",
             output="log",
             arguments=[
@@ -132,6 +175,15 @@ def generate_launch_description():
             ],
             parameters=[{"use_sim_time": use_sim_time}],
         ),
+        # # spawn obstacles into Gazebo when exercise is true
+        # ExecuteProcess(
+        #     cmd=[
+        #         'python3',
+        #         os.path.join(gz_pkg_share, 'scripts', 'spawn_obstacles.py'),
+        #     ],
+        #     condition=IfCondition(exercise),
+        #     output='screen',
+        # ),
         # ros_gz_bridge
         Node(
             package="ros_gz_bridge",

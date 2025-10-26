@@ -30,6 +30,13 @@ def generate_launch_description():
             choices=["true", "false"],
             description="Whether to use dense obstacle configuration. \n" \
             "If false, only two obstacles are spawned, else ten.", 
+        ),
+        DeclareLaunchArgument(
+            "exercise",
+            default_value="false",
+            choices=["true", "false"],
+            description="Whether to load the exercise 2 RViz config. \n" \
+            "If false, no trajectory markers will be shown.", 
         )
     ]
     # Include the Gazebo launch directly and pass launch args
@@ -39,7 +46,8 @@ def generate_launch_description():
         ),
         launch_arguments=[
             ('launch_rviz', 'true'),
-            ('run_headless', LaunchConfiguration('run_headless'))
+            ('run_headless', LaunchConfiguration('run_headless')),
+            ('exercise', LaunchConfiguration('exercise'))
         ]
     )
     obstacle_publisher_node = Node(

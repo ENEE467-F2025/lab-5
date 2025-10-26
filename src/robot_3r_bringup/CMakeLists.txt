@@ -11,13 +11,8 @@ find_package(geometry_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 
 install(DIRECTORY
-  launch scripts
+  launch
   DESTINATION share/${PROJECT_NAME}
 )
-
-install(PROGRAMS 
-    scripts/test_docker.py
-   DESTINATION lib/${PROJECT_NAME}
- )
 
 ament_package()

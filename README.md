@@ -50,13 +50,15 @@ The lab computers contain a prebuild image so you will not have to build the ima
     ```
 * Edit the lab-5 Python (ROS 2) code  within the `lab-5/src` and `lab-5/src/exercise` folders from a VS Code editor on the host machine. The repo directory `lab-5/src`  is mounted to the docker container located at `/home/robot/ros2_ws/src` so all changes will be reflected **inside** the container.
 
-* Test your setup by running a simple ROS2 node:
+* Test your setup by running the following script from a terminal within the Docker container:
     ```
-    cd ~/lab-5/
-    source install/local_setup.bash
-    ros2 run robot_3r_bringup test_docker.py
+    cd ~/ros2_ws/src
+    python3 test_docker.py
     ```
-
+    This should print the following output to the terminal (if the message doesn’t appear, stop and contact your TA, otherwise proceed with the lab procedure): 
+    ```txt 
+    All packages for Lab 5 found. Docker setup is correct.
+    ```
 ## Attaching the Docker Container to VSCode
 To enable type hints and IntelliSense, after starting the container, run the following command from a new terminal on the lab machine to attach the running container to VSCode:
 ```bash
@@ -66,4 +68,4 @@ Once this is done, verify that the Python extension is installed in the containe
 
 ## Lab Instructions
 
-Please follow the [lab manual](Lab_5_Collision_Free_Motion_Planning_I.pdf) closely. All instructions are contained inside the lab manual.
+Please follow the [lab manual](Lab_5_Motion-Planning-Part-1.pdf) closely. All instructions are contained inside the lab manual.
