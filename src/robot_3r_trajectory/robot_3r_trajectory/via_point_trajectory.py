@@ -76,7 +76,6 @@ class ViaPointTrajectoryGenerator(Node):
 
         # periodic sender
         # TODO (Exercise 2b): create a timer that calls self.send_trajectory_goal every second
-        self.send_traj_goal_timer = self.create_timer(1.0, self.send_trajectory_goal)
 
         # trajectory params
         self.declare_parameter('points_per_segment', 10, ParameterDescriptor(description='Number of points in the sampled trajectory between each pair of via points'))
@@ -246,7 +245,8 @@ class ViaPointTrajectoryGenerator(Node):
             self.goal_reached = True
             try:
                 # TODO (Exercise 2c): cancel the periodic sending of trajectory goals
-                self.send_traj_goal_timer.cancel()
+                # replace the pass statement below with the appropriate code
+                pass
             except Exception:
                 pass
         except Exception:
