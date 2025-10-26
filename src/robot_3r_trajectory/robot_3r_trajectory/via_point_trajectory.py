@@ -38,7 +38,7 @@ _raw_waypoints = np.array([
     [1.01, 1.51, 1.41],
 ])
 
-# select every other waypoint including start and goal
+# select all waypoints
 VIA_POINT_PATH = _raw_waypoints.tolist()
 
 # robot data
