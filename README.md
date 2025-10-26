@@ -54,8 +54,16 @@ The lab computers contain a prebuild image so you will not have to build the ima
     ```
 * Edit the lab-5 Python (ROS 2) code  within the `lab-5/src` folder from a VS Code editor on the host machine. The repo directory `lab-5/src`  is mounted to the Docker container located at `/home/robot/ros2_ws/src` so all changes will be reflected **inside** the container.
 
-* Test your setup by running the following script from a terminal within the Docker container:
+## Test Your Setup
+* From within the container, build and source your workspace:
+    ```bash
+    cd ~/ros2_ws/
+    colcon build --symlink-install
+    source install/setup.bash
     ```
+
+* Then run the following script:
+    ```bash
     cd ~/ros2_ws/src
     python3 test_docker.py
     ```
@@ -64,11 +72,11 @@ The lab computers contain a prebuild image so you will not have to build the ima
     All packages for Lab 5 found. Docker setup is correct.
     ```
 ## Attaching the Docker Container to VSCode
-To enable type hints and IntelliSense, after starting the container, run the following command from a new terminal on the lab machine to attach the running container to VSCode:
+To enable type hints and IntelliSense, after starting the container, run the following command from a new terminal on the lab machine (host) to attach the running container to VSCode:
 ```bash
 code --folder-uri vscode-remote://attached-container+$(printf "$(docker ps -q --filter ancestor=lab-5-image)" | od -A n -t x1 | sed 's/ *//g' | tr -d '\n')/home/robot/ros2_ws/src
 ```
-Once this is done, verify that the Python extension is installed in the container on VSCode, otherwise install it to enable type hints.
+The command will launch VSCode on your host and automatically attach it to the running container. Once connected, you should see the folders from your container’s `src` directory in the VSCode workspace. Next, install the Python extension inside the container to enable type hints (make sure to select the option labeled `Install in Container: lab-5-image`).
 
 ## Lab Instructions
 

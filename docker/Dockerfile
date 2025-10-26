@@ -56,7 +56,7 @@ RUN code-server --install-extension ms-python.python
 COPY extensions/ms-iot.vscode-ros-0.9.6.vsix .
 RUN code-server --install-extension ms-iot.vscode-ros-0.9.6.vsix
 
-RUN pip install ipython roboticstoolbox-python==1.1.1 --break-system-packages && \
+RUN pip install ipython roboticstoolbox-python==1.1.1 python-fcl==0.7.0.8 transforms3d==0.4.2 --break-system-packages && \
     export PATH=/home/robot/.local/bin:$PATH
 
 # Set datetime and timezone correctly
@@ -87,13 +87,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg lsb-relea
     rm -rf /var/lib/apt/lists/*
 
 # defaults
-ARG userid=1002
-ARG groupid=1002
+ARG userid=1001
+ARG groupid=1001
 
-# setup user env
-RUN groupadd -g ${groupid} -o robot
-RUN useradd -ms /bin/bash --uid ${userid} -g ${groupid} --groups sudo,video robot && \
+# Create or reuse the user safely
+RUN existing_uid=$(getent passwd ${userid} | cut -d: -f1) && \
+    if [ -n "$existing_uid" ]; then \
+        echo "Reusing existing UID ${userid} (user: $existing_uid) as 'robot'"; \
+        usermod -l robot -d /home/robot -m "$existing_uid"; \
+    else \
+        echo "Creating new user 'robot' with UID ${userid} and GID ${groupid}"; \
+        groupadd -g ${groupid} -o robot || true; \
+        useradd -ms /bin/bash --uid ${userid} -g ${groupid} --groups sudo,video robot; \
+    fi && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
 
 USER robot
 WORKDIR /home/robot
@@ -109,7 +117,7 @@ ENV USER=robot \
     TZ=America/New_York
 
 RUN sudo mkdir -p -m 0700 /run/user/${userid} && \
-    sudo chown robot:robot /run/user/${userid}
+    sudo chown ${userid}:${groupid} /run/user/${userid}
 
 # ros workspace
 RUN source /opt/ros/jazzy/setup.bash \
