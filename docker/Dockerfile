@@ -7,8 +7,6 @@ ENV ROS_DISTRO=jazzy
 
 SHELL ["/bin/bash", "-c"]
 
-WORKDIR ${HOME}
-
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Basic setup
@@ -87,8 +85,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg lsb-relea
     rm -rf /var/lib/apt/lists/*
 
 # defaults
-ARG userid=1001
-ARG groupid=1001
+ARG userid=1002
+ARG groupid=1002
 
 # Create or reuse the user safely
 RUN existing_uid=$(getent passwd ${userid} | cut -d: -f1) && \
@@ -104,6 +102,7 @@ RUN existing_uid=$(getent passwd ${userid} | cut -d: -f1) && \
 
 
 USER robot
+ENV HOME=/home/robot
 WORKDIR /home/robot
 
 # ROS_LOCALHOST_ONLY is deprecated
@@ -136,7 +135,7 @@ RUN echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc && \
     echo "alias clc=clear" >> ~/.bashrc && \
     # clear terminal when starting
     echo "clear" >> ~/.bashrc && \
-    echo "toilet -f smblock --filter border:metal -w 24 ' ENEE 467     LAB 5'" >> ~/.bashrc
+    echo "toilet -f smblock --filter border:metal -w 24 ' ENEE 467     LAB 5        PART I'" >> ~/.bashrc
 
 # Setup tmux config
 ADD --chown=robot:robot https://raw.githubusercontent.com/MarylandRoboticsCenter/someConfigs/refs/heads/master/.tmux_K.conf /home/robot/.tmux.conf
