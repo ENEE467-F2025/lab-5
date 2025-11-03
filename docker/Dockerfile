@@ -135,7 +135,7 @@ RUN echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc && \
     echo "alias clc=clear" >> ~/.bashrc && \
     # clear terminal when starting
     echo "clear" >> ~/.bashrc && \
-    echo "toilet -f smblock --filter border:metal -w 24 ' ENEE 467     LAB 5        PART I'" >> ~/.bashrc
+    echo "toilet -f smblock --filter border:metal -w 24 ' ENEE 467     LAB 5        PART II'" >> ~/.bashrc
 
 # Setup tmux config
 ADD --chown=robot:robot https://raw.githubusercontent.com/MarylandRoboticsCenter/someConfigs/refs/heads/master/.tmux_K.conf /home/robot/.tmux.conf

@@ -1,6 +1,7 @@
 from typing import List, Dict, Tuple, Union
 
 # @coenwerem: adding these in for ENEE467; does not follow the regular schema of PyMoveIt2
+# They are needed for robot model loading and kinematics computations
 import os, yaml
 import itertools
 import xml.etree.ElementTree as ET
@@ -47,6 +48,7 @@ def end_effector_name(prefix: str = prefix) -> str:
 ################################
 # regular pymoveit2 schema end
 ################################
+
 def world_frame(prefix: str = prefix) -> str:
     return prefix + "world"
 

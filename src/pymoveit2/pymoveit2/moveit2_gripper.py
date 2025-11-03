@@ -3,6 +3,8 @@ from typing import List, Optional
 
 from rclpy.callback_groups import CallbackGroup
 from rclpy.node import Node
+from control_msgs.action import FollowJointTrajectory
+from trajectory_msgs.msg import JointTrajectory
 
 from .moveit2 import *
 
@@ -89,7 +91,7 @@ class MoveIt2Gripper(MoveIt2):
             duration_nanosec = int(
                 10e8 * (skip_planning_fixed_motion_duration - duration_sec)
             )
-            self.__open_dummy_trajectory_goal = init_follow_joint_trajectory_goal(
+            self.__open_dummy_trajectory_goal = self.init_follow_joint_trajectory_goal(
                 init_dummy_joint_trajectory_from_state(
                     init_joint_state(
                         joint_names=gripper_joint_names,
@@ -99,7 +101,7 @@ class MoveIt2Gripper(MoveIt2):
                     duration_nanosec=duration_nanosec,
                 )
             )
-            self.__close_dummy_trajectory_goal = init_follow_joint_trajectory_goal(
+            self.__close_dummy_trajectory_goal = self.init_follow_joint_trajectory_goal(
                 init_dummy_joint_trajectory_from_state(
                     init_joint_state(
                         joint_names=gripper_joint_names,
@@ -213,6 +215,18 @@ class MoveIt2Gripper(MoveIt2):
         self.set_orientation_goal = None
         self.compute_fk = None
         self.compute_ik = None
+
+    def init_follow_joint_trajectory_goal(self,
+        joint_trajectory: JointTrajectory,
+    ) -> Optional[FollowJointTrajectory.Goal]:
+        if joint_trajectory is None:
+            return None
+
+        follow_joint_trajectory_goal = FollowJointTrajectory.Goal()
+
+        follow_joint_trajectory_goal.trajectory = joint_trajectory
+
+        return follow_joint_trajectory_goal
 
     @property
     def is_open(self) -> bool:

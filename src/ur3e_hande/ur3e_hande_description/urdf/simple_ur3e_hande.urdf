@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<robot name="ur3e_hande_simple" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Base links of the UR3e robot arm -->
+  <link name="base_link"/>
+  <link name="shoulder_link"/>
+  <link name="upper_arm_link"/>
+  <link name="forearm_link"/>
+  <link name="wrist_1_link"/>
+  <link name="wrist_2_link"/>
+  <link name="wrist_3_link"/>
+
+  <!-- Joint definitions for UR3e arm -->
+  <joint name="shoulder_pan_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="shoulder_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-2.897" upper="2.897" effort="150" velocity="0.5"/>
+  </joint>
+  
+  <joint name="shoulder_lift_joint" type="revolute">
+    <parent link="shoulder_link"/>
+    <child link="upper_arm_link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.762" upper="1.762" effort="150" velocity="0.5"/>
+  </joint>
+
+  <joint name="elbow_joint" type="revolute">
+    <parent link="upper_arm_link"/>
+    <child link="forearm_link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-2.897" upper="2.897" effort="150" velocity="0.5"/>
+  </joint>
+
+  <joint name="wrist_1_joint" type="revolute">
+    <parent link="forearm_link"/>
+    <child link="wrist_1_link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-2.897" upper="2.897" effort="150" velocity="0.5"/>
+  </joint>
+
+  <joint name="wrist_2_joint" type="revolute">
+    <parent link="wrist_1_link"/>
+    <child link="wrist_2_link"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-2.897" upper="2.897" effort="150" velocity="0.5"/>
+  </joint>
+
+<joint name="wrist_3_joint" type="revolute">
+    <parent link="wrist_2_link"/>
+    <child link="wrist_3_link"/>
+    <origin rpy="1.5707 3.1415 3.1415" xyz="0.0000 0.0921 0.0000"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-2.8970" upper="2.8970" effort="150" velocity="0.5"/>
+</joint>
+
+<!-- Hand-E Gripper -->
+<link name="robotiq_hande_coupler">
+<visual>
+    <geometry>
+    <mesh filename="meshes/io_coupler.dae"/>
+    </geometry>
+</visual>
+<collision>
+    <geometry>
+    <mesh filename="meshes/io_coupler.dae"/>
+    </geometry>
+</collision>
+</link>
+
+<!-- Joint connecting the gripper to the wrist -->
+<joint name="robotiq_hande_base_joint" type="fixed">
+<parent link="wrist_3_link"/>
+<child link="robotiq_hande_link"/>
+<origin xyz="0 0 0.011" rpy="0 0 0"/>
+</joint>
+
+<link name="robotiq_hande_link">
+<visual>
+    <geometry>
+    <mesh filename="meshes/hande.dae" scale="1.0 1.0 1.0"/>
+    </geometry>
+</visual>
+<collision>
+    <geometry>
+    <mesh filename="meshes/hande.dae" scale="1.0 1.0 1.0"/>
+    </geometry>
+</collision>
+</link>
+
+<joint name="robotiq_hande_left_finger_joint" type="prismatic">
+<parent link="robotiq_hande_link"/>
+<child link="robotiq_hande_left_finger"/>
+<axis xyz="1 0 0"/>
+<limit lower="0.0" upper="0.01" effort="1.0" velocity="0.01"/>
+<origin xyz="0 0 0.099"/>
+</joint>
+
+<link name="robotiq_hande_left_finger">
+<visual>
+    <geometry>
+    <mesh filename="meshes/finger.dae" scale="1.0 1.0 1.0"/>
+    </geometry>
+</visual>
+<collision>
+    <geometry>
+    <mesh filename="meshes/finger_collision.dae" scale="1.0 1.0 1.0"/>
+    </geometry>
+</collision>
+</link>
+
+<joint name="robotiq_hande_right_finger_joint" type="prismatic">
+<parent link="robotiq_hande_link"/>
+<child link="robotiq_hande_right_finger"/>
+<axis xyz="-1 0 0"/>
+<limit lower="0.0" upper="0.01" effort="1.0" velocity="0.01"/>
+<mimic joint="robotiq_hande_left_finger_joint" multiplier="1.0"/>
+<origin xyz="0 0 0.099"/>
+</joint>
+
+<link name="robotiq_hande_right_finger">
+<visual>
+    <geometry>
+    <mesh filename="meshes/finger.dae" scale="1.0 1.0 1.0"/>
+    </geometry>
+</visual>
+<collision>
+    <geometry>
+    <mesh filename="meshes/finger_collision.dae" scale="1.0 1.0 1.0"/>
+    </geometry>
+</collision>
+</link>
+
+<joint name="robotiq_hande_end_joint" type="fixed">
+<parent link="robotiq_hande_link"/>
+<child link="robotiq_hande_end"/>
+<origin xyz="0 0 0.1455"/>
+</joint>
+
+<link name="robotiq_hande_end"/>
+</robot>

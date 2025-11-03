@@ -26,3 +26,7 @@
 lab5.build.sh
 /src/robot_3r_planners/robot_3r_planners/exercise/example_usage.py
 /src/robot_3r_planners/robot_3r_planners/exercise/README.md
+
+README_inst.md
+**.ikcache
+tree.md

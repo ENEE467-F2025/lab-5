@@ -69,7 +69,7 @@ The lab computers contain a prebuild image so you will not have to build the ima
     ```
     This should print the following output to the terminal (if the message doesn’t appear, stop and contact your TA, otherwise proceed with the lab procedure): 
     ```txt 
-    All packages for Lab 5 found. Docker setup is correct.
+    All packages for Lab 5, Part II found. Docker setup is correct.
     ```
 ## Attaching the Docker Container to VSCode
 To enable type hints and IntelliSense, after starting the container, run the following command from a new terminal on the lab machine (host) to attach the running container to VSCode:
@@ -80,7 +80,7 @@ The command will launch VSCode on your host and automatically attach it to the r
 
 ## Lab Instructions
 
-Please follow the [lab manual](Lab_5_Motion-Planning-Part-1.pdf) closely. All instructions are contained inside the lab manual.
+Please follow the [lab manual](Lab_5_Motion-Planning-Part-2.pdf) closely. All instructions are contained inside the lab manual.
 
 ## MacOS Instructions
 

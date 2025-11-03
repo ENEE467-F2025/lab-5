@@ -1,0 +1,18 @@
+scene_objects:
+  - id: "obj_sphere"
+    shape: "sphere"
+    position: [0.42, 0.5, 0.1065]
+    quat_xyzw: [0.0, 0.0, 0.0, 1.0]
+    dimensions: [0.085]
+
+  - id: "obj_cylinder"
+    shape: "cylinder"
+    position: [-0.3, 0.5, 0.1065]
+    quat_xyzw: [0.0, 0.0, 0.0, 1.0]
+    dimensions: [0.06, 0.12]
+
+  - id: "obj_box"
+    shape: "box"
+    position: [0.025, 0.42, 0.165]
+    quat_xyzw: [0.0, 0.0, 0.0, 1.0]
+    dimensions: [0.1, 0.1, 0.35]
