@@ -41,7 +41,7 @@ class TestDockerNode(Node):
             # else:
             #     self.get_logger().info(f"Package '{pkg}' found in lab 5 workspace at {share_dir}.")
 
-        self.get_logger().info("\x1b[92mAll packages for Lab 5 found. Docker setup is correct.\x1b[0m")
+        self.get_logger().info("\x1b[92mAll packages for Lab 5, Part II found. Docker setup is correct.\x1b[0m")
         self.docker_timer.cancel()
 
         # emulate Ctrl-C by shutting down rclpy, causing rclpy.spin() to exit
