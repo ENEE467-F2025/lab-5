@@ -71,7 +71,8 @@ RUN apt-get update && apt-get install -y \
     ros-jazzy-gz-ros2-control \
     ros-jazzy-foxglove-bridge \
     ros-jazzy-joint-state-publisher-gui \
-    ros-jazzy-moveit*
+    ros-jazzy-moveit* \
+    ros-jazzy-ur-*
 
 RUN apt-get update \
     && apt-get install -y ros-jazzy-gz-*
