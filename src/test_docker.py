@@ -16,7 +16,6 @@ from ament_index_python import get_package_share_directory
 lab5_packages = [
     "pymoveit2",
     "ur3e_hande_moveit_scripts",
-    "ur3e_hande_task_server",
     "ur3e_hande_gz",
     "ur3e_hande_moveit_config",
     "ur3e_hande_description",
