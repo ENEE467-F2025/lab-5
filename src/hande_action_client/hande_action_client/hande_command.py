@@ -16,11 +16,9 @@ class HandeCommand(Node):
         ########################################################
         # TODO (Ex.  2a): create action client, gripper_client
         ########################################################
-        self.gripper_client = ActionClient(
-            self, 
-            ParallelGripperCommand, 
-            "/gripper_action_controller/gripper_cmd")
-
+        
+        
+        ########################################################
     def send_goal(self, 
                   position: float, 
                   wait_for_server_sec: float = 5.0):
