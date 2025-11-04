@@ -1,4 +1,20 @@
 #!/usr/bin/env python3
+
+# Lab 5: Collision-Free Kinematic Motion Planning in ROS 2 - Part I
+# Copyright (C) 2025 Clinton Enwerem
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+#     http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """
 Utilities for configuration space and workspace visualization and collision checking in the plane.
 
@@ -35,8 +51,6 @@ rc = {"font.family" : "serif",
       "mathtext.fontset" : "stix"}
 plt.rcParams.update(rc)
 plt.rcParams["font.serif"] = ["Times New Roman"] + plt.rcParams["font.serif"]
-
-
 
 # 2R planar arm class
 class TwoRArm:
@@ -129,6 +143,8 @@ def astar_torus(grid: NDArray, start_node: Union[list, NDArray], goal_node: Unio
 
     Returns:
         Obstacle-free route in joint space from start_node to goal_node
+    
+    Adapted from: https://github.com/AtsushiSakai/PythonRobotics/blob/master/ArmNavigation/arm_obstacle_navigation/arm_obstacle_navigation.py
     """
 
     # check if start or goal is in collision
