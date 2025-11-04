@@ -15,7 +15,7 @@ setup(
     maintainer="Clinton Enwerem",
     maintainer_email="me@clintonenwerem.com",
     description="Motion planning ROS 2 suite for a spatial 3R kinematic chain.",
-    license="BSD-3-Clause",
+    license="Apache-2.0",
     # tests_require=["pytest"],
     entry_points={
         "console_scripts": [

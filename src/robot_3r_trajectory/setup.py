@@ -16,7 +16,7 @@ setup(
     maintainer='Clinton Enwerem',
     maintainer_email='me@clintonenwerem.com',
     description='Point-to-point and via-point trajectory generation for the 3R robot',
-    license='BSD-3-Clause',
+    license='Apache-2.0',
     extras_require={
         'test': [
             'pytest',

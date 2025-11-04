@@ -5,7 +5,7 @@
   <version>0.0.0</version>
   <description>The robot_3r_trajectory package.</description>
   <maintainer email="me@clintonenwerem.com">Clinton Enwerem</maintainer>
-  <license>BSD</license>
+  <license>Apache-2.0</license>
   <depend>rclpy</depend>
   <depend>trajectory_msgs</depend>
   <depend>sensor_msgs</depend>
