@@ -1,9 +1,8 @@
 """
 UR3e with Robotiq Hand-E robot definitions and utilities.
 
-Author: Clinton Enwerem
+Adapted by Clinton Enwerem from https://github.com/AndrejOrsula/pymoveit2/blob/main/pymoveit2/robots/ur.py
 Developed for the course ENEE467: Robotics Projects Laboratory, Fall 2025, University of Maryland, College Park, MD.
-Adapted from https://github.com/AndrejOrsula/pymoveit2/blob/main/pymoveit2/robots/ur.py
 """
 from typing import List, Dict, Tuple, Union
 import os

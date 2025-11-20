@@ -1,4 +1,28 @@
 #!/usr/bin/env python3
+
+# Lab 5: Collision-Free Kinematic Motion Planning in ROS 2 - Part II
+# Copyright (C) 2025 Clinton Enwerem
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+#     http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+"""
+ParallelGripperCommand action client for commanding a goal position to the Robotiq Hand-E gripper.
+
+Author: Clinton Enwerem
+Developed for the course ENEE467: Robotics Projects Laboratory, Fall 2025, University of Maryland, College Park, MD.
+"""
+
 import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionClient
