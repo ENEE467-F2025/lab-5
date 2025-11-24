@@ -16,11 +16,9 @@
 # limitations under the License.
 
 """
-ROS 2 node to find a collision-free trajectory by sampling from the attendant collision-free subspace (in joint space).
+ROS 2 node to find a collision-free path in joint space using rejection sampling.
 
 Only the RRTStar (RRTstarkConfigDefault) algorithm is implemented in this script.
-Support for RRT (RRTkConfigDefault) is planned.
-
 Usage: ros2 run robot_3r_planners sampling_based_planner.py --ros-args -p goal_config:="[1.5093, 0.6072, 1.4052]" -p check_collision:=True
 
 Author: Clinton Enwerem.
