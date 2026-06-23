@@ -140,6 +140,13 @@ class Ur3JointGoalNode(Node):
             if (self.get_clock().now() - start).nanoseconds / 1e9 > 3.0:
                 break
 
+        # Add the mounting table to the planning scene so MoveIt plans above the
+        # bench. The stock ur_moveit_config loads only the bare UR3e description, so the
+        # table from ur3e_hande_description is absent on hardware; re-add it as a
+        # collision box (dims/pose mirror table.urdf.xacro: 1.5x1.5x0.15 m at
+        # xyz 0 0.5 -0.095 in base_link).
+        self._add_support_surface()
+
         # Execute motion request
         self.moveit2.move_to_configuration(jp)
 
@@ -156,6 +163,36 @@ class Ur3JointGoalNode(Node):
                 self.create_timer(0.1, self._monitor_callback, callback_group=self._cb_group)
             self._cancel_after_secs = cancel_after_secs
         self._start_move = lambda: None
+
+    def _add_support_surface(self):
+        """Add the mounting table as a collision box and attach it to the base.
+
+        Geometry/pose mirror ur3e_hande_description/urdf/table.urdf.xacro so the
+        bare-hardware planning scene (stock ur_moveit_config) is aware of the bench.
+        The box is attached to base_link with the base links as touch_links: the base
+        is allowed to rest on the table (otherwise MoveIt reports the start state in
+        collision and silently refuses to plan), while the forearm/wrist are still
+        planned collision-free above it.
+        """
+        try:
+            self.moveit2.add_collision_box(
+                id="support_surface",
+                size=(1.5, 1.5, 0.15),
+                position=(0.0, 0.5, -0.095),
+                quat_xyzw=(0.0, 0.0, 0.0, 1.0),
+                frame_id=robot.base_link_name(),
+            )
+            time.sleep(0.5)  # let the planning scene register the world object first
+            # Allow base contact only (touch_links); other links still avoid the table.
+            self.moveit2.attach_collision_object(
+                id="support_surface",
+                link_name=robot.base_link_name(),
+                touch_links=["base", "base_link", "base_link_inertia"],
+            )
+            time.sleep(0.3)
+            self.get_logger().info("Added 'support_surface' (table); base contact allowed.")
+        except Exception as e:
+            self.get_logger().warn(f"Could not add support surface to planning scene: {e}")
 
     def _monitor_callback(self):
         state = self.moveit2.query_state()
