@@ -1,5 +1,5 @@
-# ENEE 467 Fall 2025: Robotics Project Laboratory
-## Lab 5: Collision-Free Kinematic Motion Planning in ROS 2
+# ENEE 467 Fall 2026: Robotics Project Laboratory
+## Lab 5 - Part 1: Collision-Free Kinematic Motion Planning in ROS 2
 
 This repository contains a Docker container for Lab 5 (Collision-Free Kinematic Motion Planning in ROS 2) as well as the necessary code templates for completing the exercises. Software for both parts (Part 1 and 2) is provided in this repo; the manuals will specify which packages to run for which labs.
 
