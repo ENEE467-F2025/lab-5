@@ -1,12 +1,26 @@
 planning_plugins:
   - ompl_interface/OMPLPlanner
-  
-# planner_configs:
-#   RRTConnectkConfigDefault:
-#     type: geometric::RRTConnect
-#     range: 0.05
-#     goal_bias: 0.05
-#     max_planning_time: 5.0
+
+planner_configs:
+  RRTConnectkConfigDefault:
+    type: geometric::RRTConnect
+    range: 0.0
+    goal_bias: 0.05
+  RRTstarkConfigDefault:
+    type: geometric::RRTstar
+    range: 0.0
+    goal_bias: 0.05
+    delay_collision_checking: 1
+  PRMkConfigDefault:
+    type: geometric::PRM
+    max_nearest_neighbors: 10
+
+ur_manipulator:
+  default_planner_config: RRTConnectkConfigDefault
+  planner_configs:
+    - RRTConnectkConfigDefault
+    - RRTstarkConfigDefault
+    - PRMkConfigDefault
 
 # The order of the elements in the adapter corresponds to the order they are processed by the motion planning pipeline.
 request_adapters:

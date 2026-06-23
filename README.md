@@ -1,7 +1,7 @@
-# ENEE 467 Fall 2025: Robotics Project Laboratory
-## Lab 5: Collision-Free Kinematic Motion Planning in ROS 2
+# ENEE 467 Fall 2026: Robotics Project Laboratory
+## Lab 5 - Part 2 (Simulation, MoveIt): Collision-Free Kinematic Motion Planning in ROS 2
 
-This repository contains a Docker container for Lab 5 (Collision-Free Kinematic Motion Planning in ROS 2) as well as the necessary code templates for completing the exercises. Software for both parts (Part 1 and 2) is provided in this repo; the manuals will specify which packages to run for which labs.
+This repository contains a Docker container for Lab 5 **Part 2 (Simulation, MoveIt)** as well as the necessary code templates for completing the exercises. This branch provides the software for the simulated UR3e + Robotiq Hand-E workflow (Gazebo, MoveIt, planning-scene management, and gripper control); the lab manual specifies which packages to run for each section.
 
 ## Overview
 
@@ -80,7 +80,7 @@ The command will launch VSCode on your host and automatically attach it to the r
 
 ## Lab Instructions
 
-Please follow the [lab manual](Lab_5_Motion-Planning-Part-2.pdf) closely. All instructions are contained inside the lab manual.
+Please follow the [lab manual](Lab_5_Collision-Free_Kinematic_Motion_Planning_in_ROS_2-Part-2.pdf) closely. All instructions are contained inside the lab manual.
 
 ## MacOS Instructions
 

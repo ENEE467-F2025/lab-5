@@ -29,10 +29,9 @@ setup(
     entry_points={
         'console_scripts': [
             'ur3_joint_goal_node = ur3e_hande_moveit_scripts.scripts.ur3_joint_goal:main',
-            'ur3_pose_goal_node = ur3e_hande_moveit_scripts.scripts.ur3_pose_goal:main',
+            'ur3_planner_benchmark_node = ur3e_hande_moveit_scripts.scripts.ur3_planner_benchmark:main',
             'ur3_moveit_config_node = ur3e_hande_moveit_scripts.scripts.ur3_moveit_config:main',
             'ur3_moveit_scene_node = ur3e_hande_moveit_scripts.scripts.ur3_moveit_scene:main',
-            'hande_command_node = ur3e_hande_moveit_scripts.scripts.hande_command:main',
         ],
     },
 )
