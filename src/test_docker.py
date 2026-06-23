@@ -16,7 +16,7 @@
 # limitations under the License.
 
 """
-Test script to verify Docker container setup for Lab 5, Part II.
+Test script to verify Docker container setup for Lab 5, Part III (Hardware, MoveIt).
 
 Author: Clinton Enwerem
 Developed for the course ENEE467: Robotics Projects Laboratory, Fall 2025, University of Maryland, College Park, MD.
@@ -27,17 +27,13 @@ import pathlib, os
 from rclpy.node import Node
 from ament_index_python import get_package_share_directory
 
-# Lab 5 packages
+# Lab 5 Part III (Hardware, arm-only) packages
 lab5_packages = [
     "pymoveit2",
     "ur3e_hande_moveit_scripts",
-    "ur3e_hande_gz",
     "ur3e_hande_moveit_config",
     "ur3e_hande_description",
     "robotiq_hande_description",
-    "ur3e_hande_planning_interfaces",
-    "ur3e_hande_scene_manager",
-    "hande_action_client",
 ]
 lab5_pkg_share_dirs = [get_package_share_directory(pkg) for pkg in lab5_packages]
 
@@ -56,7 +52,7 @@ class TestDockerNode(Node):
             # else:
             #     self.get_logger().info(f"Package '{pkg}' found in lab 5 workspace at {share_dir}.")
 
-        self.get_logger().info("\x1b[92mAll packages for Lab 5, Part II found. Docker setup is correct.\x1b[0m")
+        self.get_logger().info("\x1b[92mAll packages for Lab 5, Part III found. Docker setup is correct.\x1b[0m")
         self.docker_timer.cancel()
 
         # emulate Ctrl-C by shutting down rclpy, causing rclpy.spin() to exit

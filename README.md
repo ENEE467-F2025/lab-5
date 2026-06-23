@@ -1,7 +1,7 @@
-# ENEE 467 Fall 2025: Robotics Project Laboratory
-## Lab 5: Collision-Free Kinematic Motion Planning in ROS 2
+# ENEE 467 Fall 2026: Robotics Project Laboratory
+## Lab 5 - Part 3 (Hardware, MoveIt): Collision-Free Kinematic Motion Planning in ROS 2
 
-This repository contains a Docker container for Lab 5 (Collision-Free Kinematic Motion Planning in ROS 2) as well as the necessary code templates for completing the exercises. Software for both parts (Part 1 and 2) is provided in this repo; the manuals will specify which packages to run for which labs.
+This repository (the `hardware` branch) contains a Docker container for Lab 5 **Part 3 (Hardware, MoveIt)** as well as the necessary code templates for completing the exercises. Part 3 runs the MoveIt motion planning workflow on the **real UR3e arm only (no gripper)**, driven through the `ur_robot_driver` and `ur_moveit_config` packages that ship in the image. Only the arm-side packages are provided here; the lab manual specifies which packages to run for each section.
 
 ## Overview
 
@@ -23,8 +23,8 @@ To build the Docker container, ensure that you have [Docker](https://www.docker.
 * Clone this repository and navigate to the `docker` folder
     ```
     cd ~/Labs
-    git clone https://github.com/ENEE467-F2025/lab-5.git
-    cd lab-5/docker
+    git clone -b hardware https://github.com/ENEE467-F2025/lab-5.git lab-5-hw
+    cd lab-5-hw/docker
     ```
 * Build the image with Docker compose
     ```
@@ -37,8 +37,8 @@ The lab computers contain a prebuild image so you will not have to build the ima
 * Clone this repo to get the lab-5 code if you haven't done so already
     ```
     cd ~/Labs
-    git clone https://github.com/ENEE467-F2025/lab-5.git
-    cd lab-5/docker
+    git clone -b hardware https://github.com/ENEE467-F2025/lab-5.git lab-5-hw
+    cd lab-5-hw/docker
     ```
 * Enable X11 forwarding
     ```
@@ -69,7 +69,7 @@ The lab computers contain a prebuild image so you will not have to build the ima
     ```
     This should print the following output to the terminal (if the message doesn’t appear, stop and contact your TA, otherwise proceed with the lab procedure): 
     ```txt 
-    All packages for Lab 5, Part II found. Docker setup is correct.
+    All packages for Lab 5, Part III found. Docker setup is correct.
     ```
 ## Attaching the Docker Container to VSCode
 To enable type hints and IntelliSense, after starting the container, run the following command from a new terminal on the lab machine (host) to attach the running container to VSCode:
@@ -80,7 +80,7 @@ The command will launch VSCode on your host and automatically attach it to the r
 
 ## Lab Instructions
 
-Please follow the [lab manual](Lab_5_Motion-Planning-Part-2.pdf) closely. All instructions are contained inside the lab manual.
+Please follow the [lab manual](Lab_5_Collision-Free_Kinematic_Motion_Planning_in_ROS_2-Part-3.pdf) closely. All instructions are contained inside the lab manual.
 
 ## MacOS Instructions
 

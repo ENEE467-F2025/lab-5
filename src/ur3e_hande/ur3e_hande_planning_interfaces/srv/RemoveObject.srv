@@ -1,7 +1,0 @@
-# Remove an object by id
-
-string id
-
----
-bool success
-string message
