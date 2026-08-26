@@ -23,8 +23,8 @@ To build the Docker container, ensure that you have [Docker](https://www.docker.
 * Clone this repository and navigate to the `docker` folder
     ```
     cd ~/Labs
-    git clone https://github.com/ENEE467-F2026/lab-5.git
-    cd lab-5/docker
+    git clone -b moveit https://github.com/ENEE467-F2026/lab-5.git lab-5-moveit
+    cd lab-5-moveit/docker
     ```
 * Build the image with Docker compose
     ```
@@ -37,8 +37,8 @@ The lab computers contain a prebuild image so you will not have to build the ima
 * Clone this repo to get the lab-5 code if you haven't done so already
     ```
     cd ~/Labs
-    git clone https://github.com/ENEE467-F2026/lab-5.git
-    cd lab-5/docker
+    git clone -b moveit https://github.com/ENEE467-F2026/lab-5.git lab-5-moveit
+    cd lab-5-moveit/docker
     ```
 * Enable X11 forwarding
     ```
@@ -52,7 +52,7 @@ The lab computers contain a prebuild image so you will not have to build the ima
     ```
     (lab-5) robot@docker-desktop:~$
     ```
-* Edit the lab-5 Python (ROS 2) code  within the `lab-5/src` folder from a VS Code editor on the host machine. The repo directory `lab-5/src`  is mounted to the Docker container located at `/home/robot/ros2_ws/src` so all changes will be reflected **inside** the container.
+* Edit the lab-5 Python (ROS 2) code  within the `lab-5-moveit/src` folder from a VS Code editor on the host machine. The repo directory `lab-5-moveit/src`  is mounted to the Docker container located at `/home/robot/ros2_ws/src` so all changes will be reflected **inside** the container.
 
 ## Test Your Setup
 * From within the container, build and source your workspace:
